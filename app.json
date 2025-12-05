@@ -1,0 +1,14 @@
+{
+    "pages": [
+      "pages/index/index",
+      "pages/products/products"
+    ],
+    "window": {
+      "navigationBarBackgroundColor": "#ffffff",
+      "navigationBarTextStyle": "black",
+      "navigationBarTitleText": "代购商城",
+      "backgroundTextStyle": "light"
+    },
+    "style": "v2",
+    "sitemapLocation": "sitemap.json"
+  }

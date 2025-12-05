@@ -1,0 +1,8 @@
+/* app.wxss */
+.container {
+    padding: 20rpx;
+  }
+  
+  .text-center {
+    text-align: center;
+  }
