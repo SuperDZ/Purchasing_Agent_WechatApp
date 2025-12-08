@@ -1,0 +1,27 @@
+<view class="checkout-page">
+  <view class="nav-bar">
+    <text class="back-btn" bindtap="onBackTap">＜ 返回</text>
+    <text class="title">确认订单</text>
+    <text class="placeholder"></text>
+  </view>
+
+  <view class="summary">
+    <view class="row header">
+      <text>商品</text>
+      <text>单价</text>
+      <text>数量</text>
+      <text>小计</text>
+    </view>
+    <view class="row" wx:for="{{cart}}" wx:key="id">
+      <text class="name">{{item.name}}</text>
+      <text>{{item.priceStr}}</text>
+      <text>x {{item.quantity}}</text>
+      <text>{{item.subtotalStr}}</text>
+    </view>
+  </view>
+
+  <view class="footer">
+    <text>应付：<text class="amount">{{totalStr}}</text></text>
+    <button class="confirm-btn" bindtap="confirmOrder">确认</button>
+  </view>
+</view>

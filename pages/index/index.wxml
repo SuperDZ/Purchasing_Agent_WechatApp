@@ -1,167 +1,133 @@
-<!-- pages/index/index.wxml -->
+﻿<!-- pages/index/index.wxml -->
 <view class="container">
-
-<!-- 顶部标题 -->
-<view class="app-header">
-  <text class="header-title">全球代购</text>
-  <text class="header-subtitle">海外正品，放心购买</text>
-</view>
-
-<!-- 主内容区 - 根据 currentTab 显示不同部分 -->
-<!-- 商品部分 -->
-<view class="content-section {{currentTab === 'products' ? 'active' : ''}}" id="products-section">
-  <!-- 搜索栏 -->
-  <view class="search-section">
-    <view class="search-bar">
-      <input class="search-input" placeholder="搜索商品..." value="{{searchTerm}}" bindinput="onSearchInput" />
-      <button class="search-button" bindtap="applyFilters">搜索</button>
-    </view>
+  <!-- 顶部标题 -->
+  <view class="app-header">
+    <text class="header-title">全球代购</text>
+    <text class="header-subtitle">海外正品，放心购买</text>
   </view>
 
-  <!-- 商品内容容器 -->
-  <view class="content-container">
-    <!-- 左侧分类栏 -->
-    <scroll-view class="category-sidebar" scroll-y="true">
-      <view 
-        class="category-item {{currentCategory === 'all' ? 'active' : ''}}" 
-        data-category="all" 
-        bindtap="onCategoryTap">
-        全部
+  <!-- 商品部分 -->
+  <view class="content-section {{currentTab === 'products' ? 'active' : ''}}" id="products-section">
+    <view class="search-section">
+      <view class="search-bar">
+        <input style="width: 482rpx; display: block; box-sizing: border-box; height: 65rpx" class="search-input" placeholder="搜索商品..." value="{{searchTerm}}" bindinput="onSearchInput" />
+        <button class="search-button" bindtap="applyFilters">搜索</button>
       </view>
-      <view 
-        class="category-item {{currentCategory === 'beauty' ? 'active' : ''}}" 
-        data-category="beauty" 
-        bindtap="onCategoryTap">
-        美妆
-      </view>
-      <view 
-        class="category-item {{currentCategory === 'health' ? 'active' : ''}}" 
-        data-category="health" 
-        bindtap="onCategoryTap">
-        保健品
-      </view>
-      <view 
-        class="category-item {{currentCategory === 'skincare' ? 'active' : ''}}" 
-        data-category="skincare" 
-        bindtap="onCategoryTap">
-        护肤
-      </view>
-      <view 
-        class="category-item {{currentCategory === 'fragrance' ? 'active' : ''}}" 
-        data-category="fragrance" 
-        bindtap="onCategoryTap">
-        香水
-      </view>
-    </scroll-view>
-
-    <!-- 右侧商品网格 -->
-    <scroll-view class="product-grid-container" scroll-y="true">
-      <view class="product-grid">
-        <view class="product-card" wx:for="{{displayedProducts}}" wx:key="id">
-          <image class="product-image" src="{{item.image}}" mode="aspectFill" lazy-load="true"/>
-          <view class="product-info">
-            <text class="product-title">{{item.name}}</text>
-            <text class="product-description">{{item.description}}</text>
-            <view class="product-price-row">
-              <text class="product-price">¥{{item.price.toFixed(2)}}</text>
-              <button class="add-to-cart-btn" data-id="{{item.id}}" bindtap="addToCart">+</button>
+    </view>
+    <view class="content-container">
+      <scroll-view class="category-sidebar" scroll-y="true">
+        <view class="category-item {{currentCategory === 'all' ? 'active' : ''}}" data-category="all" bindtap="onCategoryTap">全部</view>
+        <view class="category-item {{currentCategory === 'toys' ? 'active' : ''}}" data-category="toys" bindtap="onCategoryTap">玩偶周边</view>
+        <view class="category-item {{currentCategory === 'foods' ? 'active' : ''}}" data-category="foods" bindtap="onCategoryTap">茶叶食品</view>
+        <view class="category-item {{currentCategory === 'skincare' ? 'active' : ''}}" data-category="skincare" bindtap="onCategoryTap">护肤</view>
+        <view class="category-item {{currentCategory === 'package' ? 'active' : ''}}" data-category="package" bindtap="onCategoryTap">包装</view>
+      </scroll-view>
+      <scroll-view class="product-grid-container" scroll-y="true">
+        <view class="product-grid">
+          <view class="product-card" wx:for="{{displayedProducts}}" wx:key="id">
+            <image class="product-image" src="{{item.image}}" mode="aspectFill" lazy-load="true"/>
+            <view class="product-info">
+              <text class="product-title">{{item.name}}</text>
+              <text class="product-description">{{item.description}}</text>
+              <view class="product-price-row">
+                <view class="price-info">
+                  <text class="product-price">{{item.priceStr}}</text>
+                  <text class="original-price">原价 {{item.originalPriceStr}}</text>
+                </view>
+                <button class="add-to-cart-btn" data-id="{{item.id}}" bindtap="addToCart">+</button>
+              </view>
             </view>
           </view>
         </view>
-      </view>
-      <!-- 空状态提示 -->
-      <view wx:if="{{displayedProducts.length === 0}}" class="empty-state">
-        <text>没有找到相关商品</text>
-      </view>
-     </scroll-view>
-  </view>
-</view>
-
-<!-- 购物车部分 -->
-<view class="content-section {{currentTab === 'cart' ? 'active' : ''}}" id="cart-section">
-  <view class="cart-header">
-    <text class="cart-title">购物车</text>
-    <text class="cart-summary">{{cartItemCount}} 件商品</text>
-  </view>
-  <scroll-view class="cart-items-container" scroll-y="true">
-    <view class="cart-items">
-      <view class="cart-item" wx:for="{{cart}}" wx:key="id">
-        <view class="cart-item-info">
-          <text class="cart-item-name">{{item.name}}</text>
-          <text class="cart-item-price">¥{{item.price.toFixed(2)}}</text>
-        </view>
-        <view class="cart-item-controls">
-          <button class="quantity-btn" data-id="{{item.id}}" data-delta="-1" bindtap="changeQuantity">-</button>
-          <text class="quantity-display">{{item.quantity}}</text>
-          <button class="quantity-btn" data-id="{{item.id}}" data-delta="1" bindtap="changeQuantity">+</button>
-          <button class="remove-btn" data-id="{{item.id}}" bindtap="removeFromCart">×</button>
-        </view>
-        <view class="cart-item-total">
-          <!-- 使用预先计算好的 subtotalStr -->
-          <text>{{item.subtotalStr}}</text>
-        </view>
-      </view>
-       <!-- 空状态提示 -->
-      <view wx:if="{{cart.length === 0}}" class="empty-state">
-        <text>购物车是空的</text>
-      </view>
+        <view wx:if="{{displayedProducts.length === 0}}" class="empty-state"><text>没有找到相关商品</text></view>
+      </scroll-view>
     </view>
-  </scroll-view>
-  <view class="cart-footer">
-    <view class="cart-total">
-      <text>总计:</text>
-      <text class="total-amount">¥{{cartTotal.toFixed(2)}}</text>
-    </view>
-    <button class="checkout-button" bindtap="checkout">去结算</button>
   </view>
-</view>
 
-<!-- 订单部分 -->
-<view class="content-section {{currentTab === 'orders' ? 'active' : ''}}" id="orders-section">
-   <view class="orders-header">
-     <text class="orders-title">我的订单</text>
-   </view>
-   <scroll-view class="orders-container" scroll-y="true">
-     <view class="order-list">
-       <view class="order-item" wx:for="{{orders}}" wx:key="id">
-         <view class="order-header">
-           <text class="order-id">订单号: {{item.id}}</text>
-           <text class="order-date">{{item.date}}</text>
-         </view>
-         <view class="order-products">
-           <view class="order-product" wx:for="{{item.products}}" wx:key="name">
-             <text class="product-name">{{item.name}}</text>
-             <text class="product-details">x {{item.quantity}}</text>
-             <text class="product-subtotal">{{item.subtotalStr}}</text>
-           </view>
-         </view>
-         <view class="order-footer">
+  <!-- 购物车部分 -->
+  <view class="content-section {{currentTab === 'cart' ? 'active' : ''}}" id="cart-section">
+    <view class="cart-header">
+      <text class="cart-title">购物车</text>
+      <text class="cart-summary">{{cartItemCount}} 件商品</text>
+    </view>
+    <scroll-view class="cart-items-container" scroll-y="true">
+      <view class="cart-items">
+        <view class="swipe-cell" wx:for="{{cart}}" wx:key="id" data-id="{{item.id}}"
+              bindtouchstart="onCartTouchStart" bindtouchmove="onCartTouchMove" bindtouchend="onCartTouchEnd">
+          <view class="swipe-body" style="transform: translateX({{item._swipeX || 0}}rpx);">
+            <view class="cart-item">
+              <image class="cart-item-image" src="{{item.image}}" mode="aspectFill"/>
+              <view class="cart-item-info">
+                <text class="cart-item-name">{{item.name}}</text>
+                <text class="cart-item-price">单价 {{item.priceStr}}</text>
+              </view>
+              <view class="cart-item-controls right">
+                <button class="quantity-btn plain" data-id="{{item.id}}" data-delta="-1" bindtap="changeQuantity">-</button>
+                <input class="quantity-input" type="number" value="{{item.quantity}}" data-id="{{item.id}}" bindinput="onQuantityInput" bindblur="onQuantityBlur"/>
+                <button class="quantity-btn plain" data-id="{{item.id}}" data-delta="1" bindtap="changeQuantity">+</button>
+              </view>
+              <view class="cart-item-total"><text>{{item.subtotalStr}}</text></view>
+            </view>
+          </view>
+          <view class="swipe-actions">
+            <button class="delete-row-btn" data-id="{{item.id}}" bindtap="removeFromCart">删除</button>
+          </view>
+        </view>
+        <view wx:if="{{cart.length === 0}}" class="empty-state"><text>购物车是空的</text></view>
+      </view>
+    </scroll-view>
+    <view class="cart-footer">
+      <view class="cart-total">
+        <text>总计:</text>
+        <text class="total-amount">{{cartTotalStr}}</text>
+      </view>
+      <button class="checkout-button" bindtap="checkout">去结算</button>
+    </view>
+  </view>
+
+  <!-- 订单部分 -->
+  <view class="content-section {{currentTab === 'orders' ? 'active' : ''}}" id="orders-section">
+    <view class="orders-header"><text class="orders-title">我的订单</text></view>
+    <scroll-view class="orders-container" scroll-y="true">
+      <view class="order-list">
+        <view class="order-item" wx:for="{{orders}}" wx:key="id" data-id="{{item.id}}" bindtap="openOrderDetail">
+          <view class="order-header">
+            <text class="order-id">订单号 {{item.id}}</text>
+            <text class="order-date">{{item.date}}</text>
+          </view>
+          <view class="order-products">
+            <view class="order-product" wx:for="{{item.products}}" wx:key="name">
+              <text class="product-name">{{item.name}}</text>
+              <text class="product-details">x {{item.quantity}}</text>
+              <text class="product-subtotal">{{item.subtotalStr}}</text>
+            </view>
+          </view>
+          <view class="order-footer">
             <view class="order-total">总计: {{item.totalStr}}</view>
-           <view class="order-status {{item.status === '已完成' ? 'status-completed' : (item.status === '已发货' ? 'status-shipped' : 'status-pending')}}">{{item.status}}</view>
-         </view>
-       </view>
-       <!-- 空状态提示 -->
-       <view wx:if="{{orders.length === 0}}" class="empty-state">
-         <text>暂无订单</text>
-       </view>
-     </view>
-   </scroll-view>
+            <view>
+              <text wx:if="{{item.appealed}}" style="color:#faad14;margin-right:12rpx;">已申诉</text>
+              <view class="order-status {{item.status === '已完成' ? 'status-completed' : (item.status === '已发货' ? 'status-shipped' : 'status-pending')}}">{{item.status}}</view>
+            </view>
+          </view>
+        </view>
+        <view wx:if="{{orders.length === 0}}" class="empty-state"><text>暂无订单</text></view>
+      </view>
+    </scroll-view>
+  </view>
 </view>
 
-</view> <!-- /container -->
-
-<!-- 底部固定导航栏 -->
+<!-- 底部固定导航 -->
 <view class="bottom-nav">
-<view class="nav-item {{currentTab === 'products' ? 'active' : ''}}" data-tab="products" bindtap="switchTab">
-  <text class="nav-icon">🛒</text>
-  <text>商品</text>
-</view>
-<view class="nav-item {{currentTab === 'cart' ? 'active' : ''}}" data-tab="cart" bindtap="switchTab">
-  <text class="nav-icon">📋</text>
-  <text>购物车</text>
-</view>
-<view class="nav-item {{currentTab === 'orders' ? 'active' : ''}}" data-tab="orders" bindtap="switchTab">
-  <text class="nav-icon">📦</text>
-  <text>订单</text>
-</view>
+  <view class="nav-item {{currentTab === 'products' ? 'active' : ''}}" data-tab="products" bindtap="switchTab">
+    <text class="nav-icon">🛒</text>
+    <text>商品</text>
+  </view>
+  <view class="nav-item {{currentTab === 'cart' ? 'active' : ''}}" data-tab="cart" bindtap="switchTab">
+    <text class="nav-icon">📋</text>
+    <text>购物车</text>
+  </view>
+  <view class="nav-item {{currentTab === 'orders' ? 'active' : ''}}" data-tab="orders" bindtap="switchTab">
+    <text class="nav-icon">📦</text>
+    <text>订单</text>
+  </view>
 </view>

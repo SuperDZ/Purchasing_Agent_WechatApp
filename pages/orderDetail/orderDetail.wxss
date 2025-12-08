@@ -1,0 +1,10 @@
+page, .order-detail { background: #f7f7f7; min-height: 100vh; }
+.header { padding: 24rpx; background: #fff; display: flex; justify-content: space-between; }
+.list { margin: 20rpx; background: #fff; border-radius: 12rpx; overflow: hidden; }
+.row { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; padding: 20rpx; border-bottom: 1rpx solid #f0f0f0; font-size: 26rpx; }
+.row.header { color: #888; background: #fafafa; }
+.row .name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.footer { position: fixed; left: 0; right: 0; bottom: 0; background: #fff; padding: 20rpx; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 -2rpx 8rpx rgba(0,0,0,.08); }
+.amount { color: #ff6b6b; font-weight: 700; }
+.appeal-btn { background: #1677ff; color: #fff; border: none; border-radius: 10rpx; padding: 16rpx 36rpx; }
+.appeal-btn::after { border: none; }
