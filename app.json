@@ -1,6 +1,9 @@
 {
     "pages": [
       "pages/index/index",
+      "pages/checkout/checkout",
+      "pages/orderDetail/orderDetail",
+      "pages/appeal/appeal",
       "pages/products/products"
     ],
     "window": {

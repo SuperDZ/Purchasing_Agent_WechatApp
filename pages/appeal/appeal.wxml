@@ -1,0 +1,10 @@
+<view class="appeal-page">
+  <view class="section">
+    <text class="label">申诉原因（最多500字）</text>
+    <textarea class="reason-input" maxlength="500" placeholder="请输入申诉理由" value="{{reason}}" bindinput="onReasonInput" />
+  </view>
+  <view class="footer">
+    <button bindtap="onCancel">返回</button>
+    <button class="submit" bindtap="onSubmit">提交</button>
+  </view>
+</view>

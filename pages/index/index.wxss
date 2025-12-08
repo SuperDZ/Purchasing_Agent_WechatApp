@@ -209,6 +209,15 @@ page {
     align-items: center;
     margin-top: 10rpx;
   }
+  .price-info {
+    display: flex;
+    flex-direction: column;
+  }
+  .original-price {
+    font-size: 22rpx;
+    color: #999;
+    text-decoration: line-through;
+  }
   
   .product-price {
     font-size: 32rpx;
@@ -218,22 +227,24 @@ page {
   
   /* 新增：商品加号按钮 (圆形) */
   .add-to-cart-btn {
-    width: 40rpx;
-    height: 40rpx;
-    line-height: 40rpx;
-    font-size: 28rpx;
+    width: 56rpx;
+    height: 56rpx;
+    line-height: 56rpx;
+    font-size: 32rpx;
     font-weight: bold;
-    background-color: #1976d2;
-    color: white;
-    border: none;
-    border-radius: 50%; /* 关键：圆形 */
-    display: flex;
+    background: transparent;
+    color: #1976d2;
+    border: 2rpx solid #1976d2;
+    border-radius: 8rpx;
+    display: inline-flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: opacity 0.2s ease;
     margin-left: 10rpx; /* 紧贴价格右侧 */
+    flex: 0 0 56rpx;
   }
+  .add-to-cart-btn::after { border: none; }
   
   .add-to-cart-btn:active {
     background-color: #1565c0;
@@ -280,6 +291,17 @@ page {
     padding: 25rpx 0;
     border-bottom: 1rpx solid #f5f5f5;
   }
+
+  /* 购物车图片 */
+  .cart-item-image {
+    width: 96rpx;
+    height: 96rpx;
+    border-radius: 8rpx;
+    margin-right: 16rpx;
+    object-fit: cover;
+    background: #f5f5f5;
+    flex: 0 0 96rpx;
+  }
   
   .cart-item-info {
     flex: 2;
@@ -302,25 +324,42 @@ page {
   }
   
   .cart-item-controls {
-    flex: 1;
+    flex: 0 0 25%; /* 占据整行的四分之一 */
+    width: 25%;
+    max-width: 25%;
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 15rpx;
+    justify-content: flex-end;
+    gap: 6rpx;
   }
+  .cart-item-controls.right { justify-content: flex-end; }
   
   .quantity-btn {
-    width: 50rpx;
-    height: 50rpx;
+    width: 44rpx;
+    height: 44rpx;
+    min-width: 44rpx;
     padding: 0;
-    background-color: #f0f0f0;
-    border: 1rpx solid #ddd;
-    border-radius: 50%;
-    font-size: 28rpx;
-    display: flex;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    font-size: 32rpx;
+    color: #333;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    flex: 0 0 44rpx;
+  }
+  .quantity-btn::after { border: none; }
+  .quantity-btn.plain { color: #1976d2; }
+  .quantity-input {
+    width: 72rpx;
+    height: 44rpx;
+    line-height: 44rpx;
+    text-align: center;
+    border: 1rpx solid #ddd;
+    border-radius: 8rpx;
+    font-size: 28rpx;
   }
   
   .quantity-display {
@@ -329,20 +368,7 @@ page {
     text-align: center;
   }
   
-  .remove-btn {
-    width: 50rpx;
-    height: 50rpx;
-    padding: 0;
-    background-color: #ffcccc;
-    border: 1rpx solid #ff9999;
-    border-radius: 50%;
-    color: #cc0000;
-    font-size: 32rpx;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-  }
+  /* 行内删除按钮现在由左滑操作呈现 */
   
   .cart-item-total {
     flex: 1;
@@ -360,6 +386,12 @@ page {
     justify-content: space-between;
     align-items: center;
   }
+  /* 左滑删除交互 */
+  .swipe-cell { position: relative; overflow: hidden; }
+  /* 内容层置于上方，默认覆盖删除按钮 */
+  .swipe-body { position: relative; z-index: 1; transition: transform 0.2s ease; background: #fff; }
+  .swipe-actions { position: absolute; right: 0; top: 0; bottom: 0; width: 160rpx; display: flex; align-items: stretch; justify-content: center; background: #ffebeb; z-index: 0; }
+  .delete-row-btn { background: #ff4d4f; color: #fff; border: none; border-radius: 0; width: 160rpx; }
   
   .cart-total {
     display: flex;
@@ -388,6 +420,7 @@ page {
     font-weight: bold;
     box-shadow: 0 4rpx 8rpx rgba(255, 107, 107, 0.3);
   }
+  .checkout-button::after { border: none; }
   
   
   /* --- 订单部分样式 --- */
